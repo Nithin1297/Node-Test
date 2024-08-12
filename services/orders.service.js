@@ -5,7 +5,8 @@ async function createOrder(orderData) {
 }
 
 async function getOrdersByUserId(userId) {
-  return await Order.query.userId(userId).go();
+  //   return await Order.query.userId(userId).go();
+  return await Order.get({ userId }).go();
 }
 
 export { createOrder, getOrdersByUserId };

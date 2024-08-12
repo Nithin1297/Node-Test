@@ -39,12 +39,13 @@ async function placeOrderCtr(req, res) {
 // ----------------------------------------------------------------------------------------------------------------------
 
 async function getUserOrdersCtr(req, res) {
-  const userId = req.user.id;
+  const userId = req.params.id;
+  console.log(userId);
   try {
     const orders = await getOrdersByUserId(userId);
-    res.send(orders.data);
+    console.log({ order: orders.data });
+    res.send({ msg: "Fetching successfull", orders: orders.data });
   } catch (error) {
-    console.error("Error fetching orders:", error);
     res.status(500).send({ msg: "Error fetching orders" });
   }
 }

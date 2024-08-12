@@ -43,7 +43,7 @@ const Order = new Entity(
       primary: {
         pk: {
           field: "pk",
-          facets: ["orderId"],
+          facets: ["userId"],
         },
         sk: {
           field: "sk",
