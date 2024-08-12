@@ -9,6 +9,9 @@ import {
 
 async function createNewCartCtr(req, res) {
   const data = req.body;
+  if (!data.userId || !data.productId || !data.quantity || !data.price) {
+    return res.status(400).send({ msg: "Missing required fields" });
+  }
   const userId = data.userId;
   // we get user id , product id, quantity and price from frontend
   const totalPrice = data.quantity * data.price;
@@ -17,19 +20,24 @@ async function createNewCartCtr(req, res) {
     products: [{ productId: data.productId, quantity: data.quantity }],
     totalPrice,
   };
-  const newCart = await createCart(cartData);
-  res.status(201).send(newCart.data);
+  try {
+    const newCart = await createCart(cartData);
+    res.status(201).send(newCart.data);
+  } catch (error) {
+    console.error("Error creating cart:", error);
+    res.status(500).send({ msg: "Error creating cart" });
+  }
 }
 
 async function getCartCtr(req, res) {
-    const userId = req.params.id; // Extract userId from request parameters
-    const cart = await getCartByUserId(userId);
-    if (cart.data) {
-      res.send(cart.data);
-    } else {
-      res.status(404).send({ msg: "Cart not found" });
-    }
+  const userId = req.params.id; // Extract userId from request parameters
+  const cart = await getCartByUserId(userId);
+  if (cart.data) {
+    res.send(cart.data);
+  } else {
+    res.status(404).send({ msg: "Cart not found" });
   }
+}
 
 async function updateCartCtr(req, res) {
   const userId = req.user.id; //
