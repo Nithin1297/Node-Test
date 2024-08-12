@@ -1,21 +1,23 @@
+// services/cart.service.js
 import { Cart } from "../entities/cart.entity.js";
 
-async function deleteProductFromCart(id) {
-  return Cart.delete({
-    productId: id,
+async function createCart(cartData) {
+  return await Cart.create(cartData).go();
+}
+
+async function getCartByUserId(userId) {
+  return await Cart.get({ userId }).go();
+}
+
+async function updateCart(userId, updatedData) {
+  return Cart.put({
+    userId,
+    ...updatedData,
   }).go();
 }
 
-async function createNewProductToCart(addProduct) {
-  return Cart.create(addProduct).go();
+async function deleteCart(userId) {
+  return Cart.delete({ userId }).go();
 }
 
-async function getAllProductsFromCart() {
-  return Cart.scan.go();
-}
-
-export {
-  deleteProductFromCart,
-  createNewProductToCart,
-  getAllProductsFromCart,
-};
+export { createCart, getCartByUserId, updateCart, deleteCart };

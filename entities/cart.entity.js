@@ -1,5 +1,5 @@
-import { Entity } from "electrodb"; // ORM(Object relation mapping) // Adapter on adapter
-
+// entities/cart.entity.js
+import { Entity } from "electrodb";
 import { client } from "../util/db_connection.js";
 
 const Cart = new Entity(
@@ -16,8 +16,15 @@ const Cart = new Entity(
       products: {
         type: "list",
         items: {
-          productId: { type: "string" },
-          quantity: { type: "number" },
+          type: "map",
+          properties: {
+            productId: {
+              type: "string",
+            },
+            quantity: {
+              type: "number",
+            },
+          },
         },
       },
       totalPrice: {
@@ -27,18 +34,15 @@ const Cart = new Entity(
     indexes: {
       primary: {
         pk: {
-          // highlight-next-line
           field: "pk",
           facets: ["userId"],
         },
         sk: {
-          // highlight-next-line
           field: "sk",
           facets: [],
         },
       },
     },
-    // add your DocumentClient and TableName as a second parameter
   },
   { client, table: "cart" }
 );
