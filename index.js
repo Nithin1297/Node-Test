@@ -1,8 +1,8 @@
-// const express = require("express"); // "type": "commonjs"
-import express from "express"; // "type": "module"
+import express from "express";
 import cors from "cors";
 import productRouter from "./routes/products.route.js";
 import cartRouter from "./routes/cart.route.js";
+import orderRouter from "./routes/orders.route.js";
 const app = express();
 
 const PORT = 4000;
@@ -12,6 +12,7 @@ app.use(express.json());
 
 app.use("/products", productRouter);
 app.use("/cart", cartRouter);
+app.use("/orders", orderRouter);
 
 app.get("/", function (request, response) {
   response.send("🙋‍♂️, 🌏 🎊✨🤩");

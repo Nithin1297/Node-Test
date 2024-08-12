@@ -1,11 +1,8 @@
-// controller/cart.controller.js
 import {
   createCart,
   getCartByUserId,
-  updateCart,
   deleteCart,
 } from "../services/cart.service.js";
-//   import { v4 as uuidv4 } from "uuid";
 
 async function createNewCartCtr(req, res) {
   const data = req.body;
@@ -13,7 +10,6 @@ async function createNewCartCtr(req, res) {
     return res.status(400).send({ msg: "Missing required fields" });
   }
   const userId = data.userId;
-  // we get user id , product id, quantity and price from frontend
   const totalPrice = data.quantity * data.price;
   const cartData = {
     userId,
@@ -30,7 +26,7 @@ async function createNewCartCtr(req, res) {
 }
 
 async function getCartCtr(req, res) {
-  const userId = req.params.id; // Extract userId from request parameters
+  const userId = req.params.id;
   const cart = await getCartByUserId(userId);
   if (cart.data) {
     res.send(cart.data);
@@ -39,17 +35,15 @@ async function getCartCtr(req, res) {
   }
 }
 
-async function updateCartCtr(req, res) {
-  const userId = req.user.id; //
-  const updatedData = req.body;
-  const updatedCart = await updateCart(userId, updatedData);
-  res.send(updatedCart.data);
-}
-
 async function deleteCartCtr(req, res) {
-  const userId = req.user.id; //
-  await deleteCart(userId);
-  res.send({ msg: "Cart deleted successfully" });
+  const userId = req.params.id;
+
+  const deletedCart = await deleteCart(userId);
+  if (deletedCart.data) {
+    res.send({ msg: "Cart deleted 🎉", deletedCart: deletedCart.data });
+  } else {
+    res.status(404).send(`Cart didn't exist for the UserId ${userId} 🥲`);
+  }
 }
 
-export { createNewCartCtr, getCartCtr, updateCartCtr, deleteCartCtr };
+export { createNewCartCtr, getCartCtr, deleteCartCtr };

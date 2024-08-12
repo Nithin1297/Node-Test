@@ -3,7 +3,6 @@ import express from "express";
 import {
   createNewCartCtr,
   getCartCtr,
-  updateCartCtr,
   deleteCartCtr,
 } from "../controller/cart.controller.js";
 import authenticateJWT from "../middleware/auth.middleware.js"; // Assuming you have a middleware for authentication
