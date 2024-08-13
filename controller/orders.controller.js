@@ -1,7 +1,8 @@
 // controller/order.controller.js
 import { createOrder, getOrdersByUserId } from "../services/orders.service.js";
 import { v4 as uuidv4 } from "uuid";
-import { getCartByUserId } from "../services/cart.service.js";
+import { getCartByUserId, deleteCart } from "../services/cart.service.js";
+// import { deleteCart } from "../services/cart.service.js";
 
 async function placeOrderCtr(req, res) {
   const data = req.body;
@@ -30,6 +31,7 @@ async function placeOrderCtr(req, res) {
     res
       .status(201)
       .send({ msg: "Order Created Successfully", newOrder: newOrder.data });
+    await deleteCart(userId);
   } catch (error) {
     console.error("Error placing order:", error);
     res.status(500).send({ msg: "Error placing order" });
