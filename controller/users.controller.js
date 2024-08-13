@@ -37,7 +37,7 @@ async function createUserCtr(request, response) {
 
 async function getUserCtr(request, response) {
   const data = request.body;
-  console.log(data);
+  // console.log(data);
 
   const storedDBUser = await getUserByName(data.username);
 
@@ -48,14 +48,14 @@ async function getUserCtr(request, response) {
   const storedPassword = storedDBUser.data.password;
   const providedPassword = data.password;
 
-  console.log(providedPassword, storedPassword);
+  // console.log(providedPassword, storedPassword);
 
   //here the order is important the stored password is given as a second parameter
   const isPasswordCheck = await bcrypt.compare(
     providedPassword,
     storedPassword
   );
-  console.log(isPasswordCheck);
+  // console.log(isPasswordCheck);
   if (isPasswordCheck) {
     var token = jwt.sign(
       { nithin: storedDBUser.data.username },
