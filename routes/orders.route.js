@@ -10,8 +10,8 @@ const router = express.Router();
 // Protect all routes with authentication
 // router.use(authenticateJWT);
 
-router.post("/", auth, placeOrderCtr);
+router.post("/",  placeOrderCtr);
 
-router.get("/:id", auth, getUserOrdersCtr);
+router.get("/:id",  getUserOrdersCtr);
 
 export default router;

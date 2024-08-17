@@ -1,62 +1,50 @@
 [
     {
-      "id": "1",
       "name": "Wireless Headphones",
       "type": "Electronics",
       "description": "High-quality wireless headphones with noise cancellation and long battery life.",
       "price": 99.99,
       "image": "https://shopatsc.com/cdn/shop/products/CH520_1000x1000_Beige_A_1024x1024@2x.jpg?v=1681219211",
-      "quantity": 7,
-      "qty": 1
+      "quantity": 7
     },
     {
-      "id": "2",
       "name": "Cotton T-Shirt",
       "type": "Clothing",
       "description": "Soft and comfortable cotton t-shirt available in various colors and sizes.",
       "price": 19.99,
       "image": "https://yourdesignstore.s3.amazonaws.com/uploads/yds/productImages/thumb/16639907304364plus-size-tee_website-final.png",
-      "quantity": 10,
-      "qty": 1
+      "quantity": 10
     },
     {
-      "id": "3",
       "name": "Leather Wallet",
       "type": "Accessories",
       "description": "Durable and stylish leather wallet with multiple card slots and a coin pocket.",
       "price": 29.99,
       "image": "https://5.imimg.com/data5/OF/GH/MY-7610375/handmade-men-s-short-leather-wallet.jpg",
-      "quantity": 8,
-      "qty": 1
+      "quantity": 8
     },
     {
-      "id": "4",
       "name": "Fitness Tracker",
       "type": "Electronics",
       "description": "Sleek and lightweight fitness tracker that monitors your activity, heart rate, and sleep.",
       "price": 79.99,
       "image": "https://pyxis.nymag.com/v1/imgs/921/c0c/d56eeaa21522d8918ee1cedde9dea91293.rsquare.w600.jpg",
-      "quantity": 5,
-      "qty": 1
+      "quantity": 5
     },
     {
-      "id": "5",
       "name": "Denim Jeans",
       "type": "Clothing",
       "description": "Classic denim jeans with a slim fit and distressed details.",
       "price": 49.99,
       "image": "https://cdn00.nnnow.com/web-images/large/styles/7Z29ZRDWTBX/1683031998030/1.jpg",
-      "quantity": 10,
-      "qty": 1
+      "quantity": 10
     },
     {
-      "id": "6",
       "name": "Leather Backpack",
       "type": "Accessories",
       "description": "Spacious and durable leather backpack with multiple compartments and a padded laptop sleeve.",
       "price": 89.99,
       "image": "https://i.etsystatic.com/12450560/r/il/e1e797/1746663182/il_570xN.1746663182_p14w.jpg",
-      "quantity": 4,
-      "qty": 1
+      "quantity": 4
     }
   ]
