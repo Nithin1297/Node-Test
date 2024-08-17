@@ -22,11 +22,14 @@ const Products = new Entity(
       price: {
         type: "number",
       },
-      category: {
+      type: {
         type: "string",
       },
-      stockQuantity: {
+      quantity: {
         type: "number",
+      },
+      image: {
+        type: "string",
       },
     },
     indexes: {
