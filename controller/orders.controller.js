@@ -6,24 +6,24 @@ import { getCartByUserId, deleteCart } from "../services/cart.service.js";
 
 async function placeOrderCtr(req, res) {
   const data = req.body;
-  const userId = data.userId;
+  // const userId = data.userId;
   // const cartData = await getCartByUserId(userId);
 
-  if (
-    !cartData.data ||
-    !cartData.data.products ||
-    cartData.data.products.length === 0
-  ) {
-    return res.status(400).send({ msg: "Cart is empty or invalid" });
-  }
+  // if (
+  //   !cartData.data ||
+  //   !cartData.data.products ||
+  //   cartData.data.products.length === 0
+  // ) {
+  //   return res.status(400).send({ msg: "Cart is empty or invalid" });
+  // }
 
   const orderData = {
+    // userId is wrong
     orderId: uuidv4(),
-    userId: userId,
-    products: cartData.data.products,
-    totalPrice: cartData.data.totalPrice,
+    userId: uuidv4(),
+    products: data.products,
+    totalPrice: data.totalPrice,
     orderDate: new Date().toISOString(),
-    status: "Pending",
   };
 
   try {
@@ -42,10 +42,10 @@ async function placeOrderCtr(req, res) {
 
 async function getUserOrdersCtr(req, res) {
   const userId = req.params.id;
-  console.log(userId);
+  // console.log(userId);
   try {
     const orders = await getOrdersByUserId(userId);
-    console.log({ order: orders.data });
+    // console.log({ order: orders.data });
     res.send({ msg: "Fetching successfull", orders: orders.data });
   } catch (error) {
     res.status(500).send({ msg: "Error fetching orders" });

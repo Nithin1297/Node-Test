@@ -23,8 +23,23 @@ const Order = new Entity(
             productId: {
               type: "string",
             },
+            name: {
+              type: "string",
+            },
+            description: {
+              type: "string",
+            },
+            price: {
+              type: "number",
+            },
+            type: {
+              type: "string",
+            },
             quantity: {
               type: "number",
+            },
+            image: {
+              type: "string",
             },
           },
         },
@@ -33,9 +48,6 @@ const Order = new Entity(
         type: "number",
       },
       orderDate: {
-        type: "string",
-      },
-      status: {
         type: "string",
       },
     },
