@@ -3,11 +3,14 @@ import { getUserIdById } from "../services/cart.service.js";
 import { v4 as uuidv4 } from "uuid";
 import { deleteFromCartById } from "../services/cart.service.js";
 import { usernameToken } from "../services/users.service.js";
+
 async function getAllOrderCtrl(request, response) {
+  const token = request.headers["x-auth-token"];
+  const userfromtoken = await usernameToken(token);
   try {
-    response.send(await getAllOrder());
+    response.send((await getAllOrder(userfromtoken.data.username)).data);
   } catch (error) {
-    response.send("products not found ");
+    response.status(404).send({ msg: "Products not found" });
   }
 }
 
