@@ -1,17 +1,10 @@
 import express from "express";
-import {
-  placeOrderCtr,
-  getUserOrdersCtr,
-} from "../controller/orders.controller.js";
 import { auth } from "../middleware/auth.middleware.js";
-
 const router = express.Router();
-
-// Protect all routes with authentication
-// router.use(authenticateJWT);
-
-router.post("/",  placeOrderCtr);
-
-router.get("/:id",  getUserOrdersCtr);
-
+import {
+  getAllOrderCtrl,
+  AddToOrderCtrl,
+} from "../controller/orders.controller.js";
+router.get("/", auth, getAllOrderCtrl);
+router.post("/pay", auth, AddToOrderCtrl);
 export default router;

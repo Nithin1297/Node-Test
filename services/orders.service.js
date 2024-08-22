@@ -1,12 +1,10 @@
 import { Order } from "../entities/orders.entity.js";
 
-async function createOrder(orderData) {
-  return await Order.create(orderData).go();
+async function getAllOrder() {
+  return (await Order.scan.go()).data;
+}
+async function createOrders(Orders) {
+  await Order.create(Orders).go();
 }
 
-async function getOrdersByUserId(userId) {
-  //   return await Order.query.userId(userId).go();
-  return await Order.get({ userId }).go();
-}
-
-export { createOrder, getOrdersByUserId };
+export { getAllOrder, createOrders };

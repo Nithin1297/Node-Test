@@ -1,50 +1,83 @@
 import {
-  createCart,
-  getCartByUserId,
-  deleteCart,
+  getAllCartItem,
+  createCartProduct,
+  getUserIdById as getCartByUserId,
+  deleteFromCartById,
 } from "../services/cart.service.js";
+import { getProductById } from "../services/products.service.js";
+import { usernameToken } from "../services/users.service.js";
 
-async function createNewCartCtr(req, res) {
-
-  const data = req.body;
-  // if (!data.userId || !data.productId || !data.quantity || !data.price) {
-  //   return res.status(400).send({ msg: "Missing required fields" });
-  // }
-  // const userId = data.userId;
-  // const totalPrice = data.quantity * data.price;
-  // const cartData = {
-  //   userId,
-  //   products: [{ productId: data.productId, quantity: data.quantity }],
-  //   totalPrice,
-  // };
+async function getAllCartItemCtrl(request, response) {
   try {
-    const newCart = await createCart(data);
-    res.status(201).send(newCart.data);
+    response.send(await getAllCartItem());
   } catch (error) {
-    console.error("Error creating cart:", error);
-    res.status(500).send({ msg: "Error creating cart" });
+    response.send("products not found ");
   }
 }
 
-async function getCartCtr(req, res) {
-  const userId = req.params.id;
-  const cart = await getCartByUserId(userId);
-  if (cart.data) {
-    res.send(cart.data);
-  } else {
-    res.status(404).send({ msg: "Cart not found" });
+async function AddToCartCtrl(request, response) {
+  const products = request.body;
+  const token = request.headers["x-auth-token"];
+  const userfromtoken = await usernameToken(token);
+
+  let realProductsInDB = [];
+
+  for (const data of products) {
+    const id = data.productId;
+    const existingData = await getProductById(id);
+    console.log(existingData);
+    if (existingData.data.productId) {
+      realProductsInDB.push({ ...data, ...existingData.data });
+    }
   }
+
+  const totalPrice = calculateTotalPriceQty(realProductsInDB);
+  const addProduct = {
+    products: realProductsInDB,
+    totalPrice: totalPrice,
+    userId: userfromtoken.data.username,
+  };
+
+  console.log(addProduct);
+  await createCartProduct(addProduct);
+
+  response.status(201).send(addProduct);
 }
 
-async function deleteCartCtr(req, res) {
-  const userId = req.params.id;
-
-  const deletedCart = await deleteCart(userId);
-  if (deletedCart.data) {
-    res.send({ msg: "Cart deleted 🎉", deletedCart: deletedCart.data });
-  } else {
-    res.status(404).send(`Cart didn't exist for the UserId ${userId} 🥲`);
+async function tocheckuserid(request, response) {
+  const { userId } = request.params;
+  console.log(userId);
+  const existingUser = await getCartByUserId(userId);
+  response.send(existingUser);
+}
+async function deleteFromCartByIdCtrl(request, response) {
+  const token = request.headers["x-auth-token"];
+  const userfromtoken = await usernameToken(token);
+  try {
+    const res = await getCartByUserId(userfromtoken.data.username);
+    if (res.data) {
+      await deleteFromCartById(userfromtoken.data.username);
+      response.send({ msg: "deleted successfully", data: res.data });
+    } else {
+      response.status(404).send({ msg: "Product not found" });
+    }
+  } catch (error) {
+    response.status(500).send("deleted failed");
   }
 }
+export {
+  getAllCartItemCtrl,
+  AddToCartCtrl,
+  deleteFromCartByIdCtrl,
+  tocheckuserid,
+};
 
-export { createNewCartCtr, getCartCtr, deleteCartCtr };
+function calculateTotalPriceQty(products) {
+  let totalPrice = 0;
+
+  for (const product of products) {
+    totalPrice += product.price * product.quantity;
+  }
+
+  return totalPrice;
+}

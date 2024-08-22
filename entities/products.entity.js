@@ -6,7 +6,7 @@ const Products = new Entity(
   {
     model: {
       entity: "Products",
-      version: "1",
+      version: "2",
       service: "ProductService",
     },
     attributes: {
@@ -25,7 +25,7 @@ const Products = new Entity(
       type: {
         type: "string",
       },
-      quantity: {
+      StockQuantity: {
         type: "number",
       },
       image: {

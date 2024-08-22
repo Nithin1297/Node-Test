@@ -12,5 +12,8 @@ async function getUserByName(username) {
 async function createSession(sessionData) {
   return await Session.create(sessionData).go();
 }
+async function usernameToken(token) {
+  return await Session.get({ token: token }).go();
+}
 
-export { createUser, getUserByName, createSession };
+export { createUser, getUserByName, createSession, usernameToken };

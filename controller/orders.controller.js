@@ -1,55 +1,46 @@
-// controller/order.controller.js
-import { createOrder, getOrdersByUserId } from "../services/orders.service.js";
+import { getAllOrder, createOrders } from "../services/orders.service.js";
+import { getUserIdById } from "../services/cart.service.js";
 import { v4 as uuidv4 } from "uuid";
-import { getCartByUserId, deleteCart } from "../services/cart.service.js";
-// import { deleteCart } from "../services/cart.service.js";
-
-async function placeOrderCtr(req, res) {
-  const data = req.body;
-  const userId = data.userId;
-  const cartData = await getCartByUserId(userId);
-
-  if (
-    !cartData.data ||
-    !cartData.data.products ||
-    cartData.data.products.length === 0
-  ) {
-    return res.status(400).send({ msg: "Cart is empty or invalid" });
-  }
-
-  const orderData = {
-    // userId is wrong
-    orderId: uuidv4(),
-    userId: userId,
-    products: data.products,
-    totalPrice: data.totalPrice,
-    orderDate: new Date().toISOString(),
-  };
-
+import { deleteFromCartById } from "../services/cart.service.js";
+import { usernameToken } from "../services/users.service.js";
+async function getAllOrderCtrl(request, response) {
   try {
-    const newOrder = await createOrder(orderData);
-    res
-      .status(201)
-      .send({ msg: "Order Created Successfully", newOrder: newOrder.data });
-    await deleteCart(userId);
+    response.send(await getAllOrder());
   } catch (error) {
-    console.error("Error placing order:", error);
-    res.status(500).send({ msg: "Error placing order" });
+    response.send("products not found ");
   }
 }
 
-// ----------------------------------------------------------------------------------------------------------------------
+async function AddToOrderCtrl(request, response) {
+  const token = request.headers["x-auth-token"];
+  const userfromtoken = await usernameToken(token);
 
-async function getUserOrdersCtr(req, res) {
-  const userId = req.params.id;
-  // console.log(userId);
   try {
-    const orders = await getOrdersByUserId(userId);
-    // console.log({ order: orders.data });
-    res.send({ msg: "Fetching successfull", orders: orders.data });
+    // Fetch cart data by UserId
+    const cartData = await getUserIdById(userfromtoken.data.username);
+    console.log("Cart Data:", cartData);
+
+    if (!cartData.data || cartData.data.products.length === 0) {
+      return response.status(404).send({ msg: "Cart is empty or not found" });
+    }
+
+    const Orders = {
+      ...cartData.data,
+      orderId: uuidv4(),
+      orderDate: new Date().toString(),
+      status: "pending",
+    };
+    console.log(Orders);
+    // Create the order
+    await createOrders(Orders);
+
+    await deleteFromCartById(userfromtoken.data.username);
+
+    response.status(201).send({ msg: "Order Placed Successfully", Orders });
   } catch (error) {
-    res.status(500).send({ msg: "Error fetching orders" });
+    console.error("Order Placement Failed:", error);
+    response.status(500).send("Failed to place order");
   }
 }
 
-export { placeOrderCtr, getUserOrdersCtr };
+export { getAllOrderCtrl, AddToOrderCtrl };

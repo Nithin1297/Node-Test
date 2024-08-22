@@ -1,15 +1,14 @@
-// routes/cart.route.js
 import express from "express";
+const router = express.Router();
 import { auth } from "../middleware/auth.middleware.js";
 import {
-  createNewCartCtr,
-  getCartCtr,
-  deleteCartCtr,
+  getAllCartItemCtrl,
+  AddToCartCtrl,
+  deleteFromCartByIdCtrl,
+  tocheckuserid,
 } from "../controller/cart.controller.js";
-
-const router = express.Router();
-
-router.route("/").put( createNewCartCtr); // Create a new cart
-
-router.route("/:id").get( getCartCtr).delete(auth,deleteCartCtr); // Retrieve the user's cart
+router.get("/", auth, getAllCartItemCtrl);
+router.post("/", auth, AddToCartCtrl);
+router.delete("/del", auth, deleteFromCartByIdCtrl);
+router.get("/:userId", tocheckuserid);
 export default router;
