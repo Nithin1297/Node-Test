@@ -1,14 +1,11 @@
 import express from "express";
 
-import { createUserCtr, getUserCtr } from "../controller/users.controller.js";
+import { createNewUser, getUserInfo } from "../controller/users.controller.js";
 
 const router = express.Router();
 
-router.post("/signup", express.json(), createUserCtr);
+router.post("/signup", express.json(), createNewUser);
 
-router.post("/login", express.json(), getUserCtr);
-
-//put method
-//router.put("/:id", UpdateMovieByIdCtr);
+router.post("/login", express.json(), getUserInfo);
 
 export default router;

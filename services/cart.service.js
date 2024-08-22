@@ -2,7 +2,7 @@
 import { Cart } from "../entities/cart.entity.js";
 
 async function createCart(cartData) {
-  return await Cart.create(cartData).go();
+  return await Cart.put(cartData).go();
 }
 
 async function getCartByUserId(userId) {

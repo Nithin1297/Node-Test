@@ -6,21 +6,21 @@ import { getCartByUserId, deleteCart } from "../services/cart.service.js";
 
 async function placeOrderCtr(req, res) {
   const data = req.body;
-  // const userId = data.userId;
-  // const cartData = await getCartByUserId(userId);
+  const userId = data.userId;
+  const cartData = await getCartByUserId(userId);
 
-  // if (
-  //   !cartData.data ||
-  //   !cartData.data.products ||
-  //   cartData.data.products.length === 0
-  // ) {
-  //   return res.status(400).send({ msg: "Cart is empty or invalid" });
-  // }
+  if (
+    !cartData.data ||
+    !cartData.data.products ||
+    cartData.data.products.length === 0
+  ) {
+    return res.status(400).send({ msg: "Cart is empty or invalid" });
+  }
 
   const orderData = {
     // userId is wrong
     orderId: uuidv4(),
-    userId: uuidv4(),
+    userId: userId,
     products: data.products,
     totalPrice: data.totalPrice,
     orderDate: new Date().toISOString(),

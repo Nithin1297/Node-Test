@@ -5,7 +5,7 @@ const Order = new Entity(
   {
     model: {
       entity: "Order",
-      version: "1",
+      version: "2",
       service: "OrderService",
     },
     attributes: {
@@ -23,23 +23,8 @@ const Order = new Entity(
             productId: {
               type: "string",
             },
-            name: {
-              type: "string",
-            },
-            description: {
-              type: "string",
-            },
-            price: {
-              type: "number",
-            },
-            type: {
-              type: "string",
-            },
             quantity: {
               type: "number",
-            },
-            image: {
-              type: "string",
             },
           },
         },
@@ -48,6 +33,9 @@ const Order = new Entity(
         type: "number",
       },
       orderDate: {
+        type: "string",
+      },
+      status: {
         type: "string",
       },
     },

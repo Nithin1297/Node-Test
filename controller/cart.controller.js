@@ -5,19 +5,20 @@ import {
 } from "../services/cart.service.js";
 
 async function createNewCartCtr(req, res) {
+
   const data = req.body;
-  if (!data.userId || !data.productId || !data.quantity || !data.price) {
-    return res.status(400).send({ msg: "Missing required fields" });
-  }
-  const userId = data.userId;
-  const totalPrice = data.quantity * data.price;
-  const cartData = {
-    userId,
-    products: [{ productId: data.productId, quantity: data.quantity }],
-    totalPrice,
-  };
+  // if (!data.userId || !data.productId || !data.quantity || !data.price) {
+  //   return res.status(400).send({ msg: "Missing required fields" });
+  // }
+  // const userId = data.userId;
+  // const totalPrice = data.quantity * data.price;
+  // const cartData = {
+  //   userId,
+  //   products: [{ productId: data.productId, quantity: data.quantity }],
+  //   totalPrice,
+  // };
   try {
-    const newCart = await createCart(cartData);
+    const newCart = await createCart(data);
     res.status(201).send(newCart.data);
   } catch (error) {
     console.error("Error creating cart:", error);

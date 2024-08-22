@@ -9,7 +9,7 @@ import {
 
 const router = express.Router();
 
-router.route("/").post( createNewCartCtr); // Create a new cart
+router.route("/").put( createNewCartCtr); // Create a new cart
 
 router.route("/:id").get( getCartCtr).delete(auth,deleteCartCtr); // Retrieve the user's cart
 export default router;
