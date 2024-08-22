@@ -24,7 +24,24 @@ const Order = new Entity(
           properties: {
             productId: {
               type: "string",
-              required: true,
+            },
+            name: {
+              type: "string",
+            },
+            description: {
+              type: "string",
+            },
+            price: {
+              type: "number",
+            },
+            type: {
+              type: "string",
+            },
+            StockQuantity: {
+              type: "number",
+            },
+            image: {
+              type: "string",
             },
             quantity: {
               type: "number",
